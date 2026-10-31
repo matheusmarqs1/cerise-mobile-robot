@@ -1,1 +1,0 @@
-/home/mtmarqs/dev_ws/src/cerise-mobile-robot/build/cerise_mobile_robot/ament_cmake_core/cerise_mobile_robotConfig-version.cmake
