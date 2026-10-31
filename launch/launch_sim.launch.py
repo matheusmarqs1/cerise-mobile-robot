@@ -26,13 +26,13 @@ def generate_launch_description():
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'false'}.items()
     )
 
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'worlds',
-        'empty.world'
+        'my_secret_world.sdf'
         )    
     
     world = LaunchConfiguration('world')
@@ -57,8 +57,8 @@ def generate_launch_description():
                                    '-name', 'my_bot',
                                    '-z', '0.1'],
                         output='screen')
-    
-    diff_drive_spawner = Node(
+    '''
+     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["diff_cont"],
@@ -84,7 +84,7 @@ def generate_launch_description():
         )
     )
 
-
+'''
     bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
@@ -99,7 +99,7 @@ def generate_launch_description():
     ros_gz_image_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
-        arguments=["/camera/image", "/camera/depth_image"]
+        arguments=["/camera/image_raw", "/camera/depth_image"]
     )
 
     # Launch them all!
@@ -108,8 +108,8 @@ def generate_launch_description():
         world_arg,
         gazebo,
         spawn_entity,
-        delayed_diff_drive_spawner,
-        delayed_joint_broad_spawner,
+        # delayed_diff_drive_spawner,
+        # delayed_joint_broad_spawner,
         ros_gz_bridge,
         ros_gz_image_bridge
     ])
